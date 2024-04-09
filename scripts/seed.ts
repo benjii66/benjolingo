@@ -61,6 +61,31 @@ const main = async () => {
                 order: 1,
                 title: "Nouns",
             },
+            {
+                id: 2,
+                unitId: 1, //Unit 1 learn the basics
+                order: 2,
+                title: "Verbs",
+            },
+            {
+                id: 3,
+                unitId: 1, //Unit 1 learn the basics
+                order: 3,
+                title: "Shrek",
+            },
+            {
+                id: 4,
+                unitId: 1, //Unit 1 learn the basics
+                order: 4,
+                title: "Oui",
+            },
+            {
+                id: 5,
+                unitId: 1, //Unit 1 learn the basics
+                order: 5,
+                title: "Ahn",
+            },
+
 
         ]);
 
