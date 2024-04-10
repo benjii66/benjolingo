@@ -1,22 +1,23 @@
 "use server"
 
 import db from "@/db/drizzle";
+import { and, eq } from "drizzle-orm"
 import { getCourseById, getUserProgress } from "@/db/queries";
-import { userProgress } from "@/db/schema";
-import { auth,currentUser } from "@clerk/nextjs";
+import { challengeProgress, userProgress } from "@/db/schema";
+import { auth, currentUser } from "@clerk/nextjs";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 
-export const upsertUserProgress = async (courseId : number ) => {
+export const upsertUserProgress = async (courseId: number) => {
     const { userId } = await auth();
     const user = await currentUser()
-    if(!userId || !user)
+    if (!userId || !user)
         throw new Error("Unauthorized");
 
     const course = await getCourseById(courseId);
 
-    if(!course)
+    if (!course)
         throw new Error("Course not found");
 
 
@@ -25,26 +26,49 @@ export const upsertUserProgress = async (courseId : number ) => {
     //     throw new Error("Course is empty");
 
     const existingUserProgress = await getUserProgress();
-    if(existingUserProgress)
-        {
-            await db.update(userProgress).set({
-                activeCourseId: courseId,
-                userName: user.firstName || "User",
-                userImageSrc: user.imageUrl || "/mascot.svg",
-            });
-            revalidatePath("/courses");
-            revalidatePath("/learn");
-            redirect("/learn");
-        }
-
-        await db.insert(userProgress).values({
-            userId,
+    if (existingUserProgress) {
+        await db.update(userProgress).set({
             activeCourseId: courseId,
             userName: user.firstName || "User",
-            userImageSrc: user.imageUrl || "/mascot.svg"
-        })
-
+            userImageSrc: user.imageUrl || "/mascot.svg",
+        });
         revalidatePath("/courses");
         revalidatePath("/learn");
         redirect("/learn");
-} 
+    }
+
+    await db.insert(userProgress).values({
+        userId,
+        activeCourseId: courseId,
+        userName: user.firstName || "User",
+        userImageSrc: user.imageUrl || "/mascot.svg"
+    })
+
+    revalidatePath("/courses");
+    revalidatePath("/learn");
+    redirect("/learn");
+}
+
+export const reduceHearts = async (challengeId: number) => {
+
+    const { userId } = await auth();
+
+    if (!userId) throw new Error("Unauthorized");
+
+    const currentUserProgress = await getUserProgress();
+
+    //todo get user sub
+
+    const existingChallengeProgress = await db.query.challengeProgress.findFirst({
+        where: and(
+            eq(challengeProgress.userId, userId),
+            eq(challengeProgress.challengeId, challengeId)
+        )
+    });
+
+    const isPractice = !!existingChallengeProgress;
+
+    if (isPractice) return { error: "practice" }
+    if(!currentUserProgress) throw new Error("User progress not found");
+
+}
