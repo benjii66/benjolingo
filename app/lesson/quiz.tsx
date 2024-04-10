@@ -18,7 +18,7 @@ const Quiz = ({ initialLessonId, initialLessonChallenges, initialHearts, initial
 
 
   const [hearts, setHearts] = useState(initialHearts);
-  const [percentage, setPercentage] = useState(25 || initialPercentage);
+  const [percentage, setPercentage] = useState(initialPercentage);
 
   return (
     <>
