@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation';
 
 import { toast } from "sonner"
 
-import { challengeOptions, challenges } from '@/db/schema';
+import { challengeOptions, challenges, userSubscription } from '@/db/schema';
 
 import { reduceHearts } from '@/actions/user-progress';
 import { upsertChallengeProgress } from '@/actions/challenge-progress';
@@ -28,7 +28,9 @@ type Props = {
   initialLessonChallenges: (typeof challenges.$inferSelect & { completed: boolean, challengeOptions: typeof challengeOptions.$inferSelect[] })[],
   initialHearts: number,
   initialPercentage: number,
-  userSubscription: any //replace with sub DB type
+  userSubscription: typeof userSubscription.$inferSelect & {
+    isActive: boolean
+    } | null;
 }
 
 const Quiz = ({ initialLessonId, initialLessonChallenges, initialHearts, initialPercentage, userSubscription }: Props) => {
