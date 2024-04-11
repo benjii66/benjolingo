@@ -2,7 +2,7 @@
 
 import React, { useState, useTransition } from 'react';
 import Confetti from 'react-confetti';
-import { useAudio, useWindowSize } from 'react-use';
+import { useAudio, useWindowSize, useMount } from 'react-use';
 
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
@@ -19,6 +19,8 @@ import { Challenge } from './challenge';
 import { QuestionBubble } from './question-bubble';
 import { ResultCard } from './result-card';
 import { Footer } from './footer';
+import { useHeartsModal } from '@/store/use-hearts-modal';
+import { usePracticeModal } from '@/store/use-practice-modal';
 
 
 type Props = {
@@ -30,6 +32,16 @@ type Props = {
 }
 
 const Quiz = ({ initialLessonId, initialLessonChallenges, initialHearts, initialPercentage, userSubscription }: Props) => {
+
+  const { open: openHeartsModal } = useHeartsModal();
+
+  const { open: openPracticeModal } = usePracticeModal();
+
+  useMount(() => {
+    if (initialPercentage === 100) {
+      openPracticeModal();
+    }
+  })
 
   const { width, height } = useWindowSize();
 
@@ -43,7 +55,7 @@ const Quiz = ({ initialLessonId, initialLessonChallenges, initialHearts, initial
   const [finishAudio] = useAudio({ src: "/finish.mp3", autoPlay: true });
 
   const [hearts, setHearts] = useState(initialHearts);
-  const [percentage, setPercentage] = useState(initialPercentage);
+  const [percentage, setPercentage] = useState(() => { return initialPercentage === 100 ? 0 : initialPercentage; });
 
   const [lessonId] = useState(initialLessonId);
   const [challenges] = useState(initialLessonChallenges);
@@ -93,7 +105,7 @@ const Quiz = ({ initialLessonId, initialLessonChallenges, initialHearts, initial
       startTransition(() => {
         upsertChallengeProgress(challenge.id).then((response) => {
           if (response?.error === "hearts") {
-            console.error("Missing hearts")
+            openHeartsModal();
             return;
           }
 
@@ -111,7 +123,7 @@ const Quiz = ({ initialLessonId, initialLessonChallenges, initialHearts, initial
       startTransition(() => {
         reduceHearts(challenge.id).then((response) => {
           if (response?.error === "hearts") {
-            console.error("missing hearts")
+            openHeartsModal();
             return;
           }
           incorrectControls.play();
