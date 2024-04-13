@@ -11,9 +11,11 @@ export const LessonList = () => {
         </ReferenceField>
         <ReferenceField source="unitId" reference="units" link={false} label="Course">
           <ReferenceField source="courseId" reference="courses">
-            <div style={{ display: 'flex', alignItems: 'center',  }}>
+            <div style={{ display: 'flex', alignItems: 'center', }}>
               <div style={{ display: 'flex', alignItems: 'center' }}>
-                <ImageField source="imageSrc" style={{ width: '1em', height: '1em', marginTop: '-7em', marginRight: '1em'}} />
+                <div style={{ width: '1em', height: '1em', marginTop: '-7em', marginRight: '1em' }}>
+                  <ImageField source="imageSrc" />
+                </div>
                 <TextField source="title" />
               </div>
             </div>

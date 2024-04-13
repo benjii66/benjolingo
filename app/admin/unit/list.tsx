@@ -9,8 +9,8 @@ export const UnitList = () => {
         <TextField source="description" />
         <ReferenceField source="courseId" reference="courses" >
           <div style={{ display: 'flex', alignItems: 'center', }}>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <ImageField source="imageSrc" style={{ width: '1em', height: '1em', marginTop: '-7em', marginRight: '1em' }} />
+            <div style={{ width: '1em', height: '1em', marginTop: '-7em', marginRight: '1em' }}>
+              <ImageField source="imageSrc" />
               <TextField source="title" />
             </div>
           </div>
