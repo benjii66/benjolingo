@@ -25,7 +25,7 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider>
-      <html lang="en">
+      <html lang="en" translate="no">
         <body className={font.className}>
           <Toaster />
           <ExitModal />
