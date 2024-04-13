@@ -1,17 +1,19 @@
-import { SimpleForm, Edit, TextInput, ReferenceInput, NumberInput, required } from "react-admin";
+import { SimpleForm, Edit, TextInput, ReferenceInput, NumberInput, required, AutocompleteInput } from "react-admin";
 
 export const LessonEdit = () => {
   return (
     <Edit>
       <SimpleForm>
-        <TextInput 
-          source="title" 
-          validate={[required()]} 
+        <TextInput
+          source="title"
+          validate={[required()]}
           label="Title"
         />
         <ReferenceInput
           source="unitId"
-          reference="units"
+          sort={{ field: 'unitId', order: 'ASC' }}
+          reference="units" 
+          
         />
         <NumberInput
           source="order"

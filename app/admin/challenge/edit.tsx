@@ -26,6 +26,7 @@ export const ChallengeEdit = () => {
         <ReferenceInput
           source="lessonId"
           reference="lessons"
+          sort={{ field: 'lessonId', order: 'ASC' }}
         />
         <NumberInput
           source="order"

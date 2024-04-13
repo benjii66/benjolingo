@@ -26,6 +26,7 @@ export const ChallengeCreate = () => {
         <ReferenceInput
           source="lessonId"
           reference="lessons"
+          lessonId={{ field: 'lessonId', order: 'ASC' }}
         />
         <NumberInput
           source="order"

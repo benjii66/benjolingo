@@ -16,6 +16,8 @@ export const ChallengeOptionEdit = () => {
         <ReferenceInput
           source="challengeId"
           reference="challenges"
+          lessonId={{ field: 'challengeId', order: 'ASC' }}
+
         />
         <TextInput
           source="imageSrc"
