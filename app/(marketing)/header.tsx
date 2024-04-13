@@ -22,7 +22,7 @@ export const Header = () => {
                         alt="Mascot"
                     />
                     <h1 className='text-2xl font-extrabold text-green-600 tracking-wide'>
-                        Lingo
+                        BenjoLingo
                     </h1>
                 </div>
                 <ClerkLoading>

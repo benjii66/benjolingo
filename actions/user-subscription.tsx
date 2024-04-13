@@ -37,7 +37,7 @@ export const createStripeUrl = async () => {
         price_data: {
           currency: "EUR",
           product_data: {
-            name: "Lingo Pro",
+            name: "BenjoLingo Pro",
             description: "Unlimited Hearts",
           },
           unit_amount: 200, // 2.00 EUR
